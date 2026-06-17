@@ -17,7 +17,9 @@ function Modal({ onClose, onSave }) {
     if (!form.name.trim()) errs.name = 'Required';
     if (!form.email) errs.email = 'Required';
     else if (!/\S+@\S+\.\S+/.test(form.email)) errs.email = 'Invalid email';
-    if (!form.phone.trim()) errs.phone = 'Required';
+    if (!form.phone) errs.phone = 'Phone number is required';
+    else if (!/^\d+$/.test(form.phone)) errs.phone = 'Only numeric digits allowed';
+    else if (form.phone.length !== 10) errs.phone = `Must be exactly 10 digits (${form.phone.length} entered)`;
     if (!form.joinDate) errs.joinDate = 'Required';
     return errs;
   };
@@ -54,7 +56,26 @@ function Modal({ onClose, onSave }) {
         <form onSubmit={handleSubmit} className="space-y-4">
           {field('name', 'Full Name', 'text', 'John Doe')}
           {field('email', 'Email', 'text', 'john@example.com')}
-          {field('phone', 'Phone Number', 'text', '+1 555 000 0000')}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Phone Number</label>
+            <input
+              type="text"
+              inputMode="numeric"
+              value={form.phone}
+              onChange={e => {
+                const digits = e.target.value.replace(/\D/g, '');
+                setForm(p => ({ ...p, phone: digits }));
+                setErrors(p => ({ ...p, phone: '' }));
+              }}
+              placeholder="10-digit number"
+              maxLength={10}
+              className={`w-full bg-gray-800 border rounded-lg px-3 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm ${errors.phone ? 'border-red-500' : 'border-gray-700'}`}
+            />
+            {errors.phone
+              ? <p className="text-red-400 text-xs mt-0.5">{errors.phone}</p>
+              : <p className="text-gray-600 text-xs mt-0.5">{form.phone.length}/10 digits</p>
+            }
+          </div>
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">Membership Type</label>
             <select

@@ -7,6 +7,7 @@ const navItems = [
   { to: '/members', icon: '👥', label: 'Members' },
   { to: '/diet', icon: '🥗', label: 'Nutrition' },
   { to: '/payments', icon: '💳', label: 'Payments' },
+  { to: '/reports',  icon: '📊', label: 'Reports' },
 ];
 
 export default function Sidebar({ open, onClose }) {

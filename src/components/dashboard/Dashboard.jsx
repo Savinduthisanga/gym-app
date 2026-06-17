@@ -67,11 +67,22 @@ export default function Dashboard() {
       .filter(p => p.isPaid && p.paymentDate?.slice(0, 7) === thisMonth)
       .reduce((sum, p) => sum + Number(p.amount || 0), 0);
 
+    const equip = JSON.parse(localStorage.getItem('gym_equipment') || '[]');
+    const equipAlerts = equip.filter(e => {
+      if (!e.nextMaintenanceDate) return false;
+      return Math.ceil((new Date(e.nextMaintenanceDate) - new Date()) / 86400000) <= 7;
+    }).length;
+
     return {
       totalWorkouts: workouts.length,
       totalMembers: members.length,
       todayCalories,
       monthRevenue,
+      equipTotal:   equip.length,
+      equipWorking: equip.filter(e => e.status === 'Working').length,
+      equipMaint:   equip.filter(e => e.status === 'Under Maintenance').length,
+      equipOut:     equip.filter(e => e.status === 'Out of Order').length,
+      equipAlerts,
     };
   }, []);
 
@@ -199,6 +210,48 @@ export default function Dashboard() {
             })}
           </div>
         </div>
+      </div>
+
+      {/* Equipment Status */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-white font-semibold text-lg">Equipment</h2>
+          <Link to="/equipment" className="text-gray-500 hover:text-orange-400 text-xs transition">View all →</Link>
+        </div>
+        {stats.equipTotal === 0 ? (
+          <div className="bg-gray-900 border border-gray-800 rounded-xl p-5 text-center text-gray-500 text-sm">
+            No equipment added.{' '}
+            <Link to="/equipment" className="text-orange-400 hover:underline">Add some!</Link>
+          </div>
+        ) : (
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+            <div className="grid grid-cols-3 gap-4 mb-4">
+              <div className="text-center">
+                <p className="text-2xl font-bold text-green-400">{stats.equipWorking}</p>
+                <p className="text-gray-500 text-xs mt-0.5">Working</p>
+              </div>
+              <div className="text-center">
+                <p className="text-2xl font-bold text-yellow-400">{stats.equipMaint}</p>
+                <p className="text-gray-500 text-xs mt-0.5">Maintenance</p>
+              </div>
+              <div className="text-center">
+                <p className="text-2xl font-bold text-red-400">{stats.equipOut}</p>
+                <p className="text-gray-500 text-xs mt-0.5">Out of Order</p>
+              </div>
+            </div>
+            {stats.equipAlerts > 0 && (
+              <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl px-3 py-2.5 flex items-center gap-2 text-xs">
+                <span>⚠️</span>
+                <span className="text-yellow-400 font-medium">
+                  {stats.equipAlerts} item{stats.equipAlerts !== 1 ? 's' : ''} due for maintenance
+                </span>
+                <Link to="/equipment" className="ml-auto text-yellow-300 hover:text-yellow-200 font-medium whitespace-nowrap">
+                  View →
+                </Link>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {recentMembers.length > 0 && (

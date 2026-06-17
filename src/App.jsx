@@ -12,6 +12,7 @@ import PaymentTracker from './components/payments/PaymentTracker';
 import Reports from './components/reports/Reports';
 import Settings from './components/settings/Settings';
 import ExportData from './components/export/ExportData';
+import EquipmentManagement from './components/equipment/EquipmentManagement';
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
             <Route path="/payments" element={<PaymentTracker />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/equipment" element={<EquipmentManagement />} />
             <Route path="/export" element={<ExportData />} />
           </Route>
           <Route path="*" element={<Navigate to="/login" replace />} />

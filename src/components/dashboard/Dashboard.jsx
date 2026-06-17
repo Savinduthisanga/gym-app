@@ -1,6 +1,10 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useSettings } from '../../context/SettingsContext';
+
+const WEEK_DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const DAYS_ORDER = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 function StatCard({ icon, label, value, color, to }) {
   return (
@@ -33,6 +37,18 @@ function QuickAction({ icon, label, desc, to, color }) {
 
 export default function Dashboard() {
   const { user } = useAuth();
+  const { settings } = useSettings();
+
+  const todayName = WEEK_DAYS[new Date().getDay()];
+  const todayHours = settings.workingHours[todayName];
+  const isOpenNow = (() => {
+    if (!todayHours?.open) return false;
+    const now = new Date();
+    const nowMins = now.getHours() * 60 + now.getMinutes();
+    const [oh, om] = todayHours.openTime.split(':').map(Number);
+    const [ch, cm] = todayHours.closeTime.split(':').map(Number);
+    return nowMins >= oh * 60 + om && nowMins < ch * 60 + cm;
+  })();
 
   const stats = useMemo(() => {
     const workouts = JSON.parse(localStorage.getItem('gym_workouts') || '[]');
@@ -124,6 +140,64 @@ export default function Dashboard() {
               ))}
             </div>
           )}
+        </div>
+      </div>
+
+      {/* Working Hours */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-white font-semibold text-lg">Working Hours</h2>
+          <Link to="/settings" className="text-gray-500 hover:text-orange-400 text-xs transition">Edit →</Link>
+        </div>
+        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+          {/* Today status banner */}
+          <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-800">
+            <div>
+              <p className="text-gray-500 text-xs mb-0.5">Today · {todayName}</p>
+              <p className="text-white font-semibold">
+                {todayHours?.open
+                  ? `${todayHours.openTime} – ${todayHours.closeTime}`
+                  : 'Closed Today'}
+              </p>
+            </div>
+            <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border ${
+              isOpenNow
+                ? 'bg-green-500/15 text-green-400 border-green-500/30'
+                : 'bg-gray-800 text-gray-500 border-gray-700'
+            }`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${isOpenNow ? 'bg-green-400 animate-pulse' : 'bg-gray-600'}`} />
+              {isOpenNow ? 'Open Now' : 'Closed Now'}
+            </span>
+          </div>
+          {/* Week grid */}
+          <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
+            {DAYS_ORDER.map(day => {
+              const h = settings.workingHours[day];
+              const isToday = day === todayName;
+              return (
+                <div
+                  key={day}
+                  className={`rounded-xl p-2.5 text-center border ${
+                    isToday
+                      ? 'bg-orange-500/10 border-orange-500/30'
+                      : 'bg-gray-800/40 border-gray-800'
+                  }`}
+                >
+                  <p className={`text-xs font-semibold mb-1.5 ${isToday ? 'text-orange-400' : 'text-gray-500'}`}>
+                    {day.slice(0, 3)}
+                  </p>
+                  {h?.open ? (
+                    <>
+                      <p className="text-white text-xs leading-tight">{h.openTime}</p>
+                      <p className="text-gray-500 text-xs leading-tight">{h.closeTime}</p>
+                    </>
+                  ) : (
+                    <p className="text-gray-700 text-xs">Closed</p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
 

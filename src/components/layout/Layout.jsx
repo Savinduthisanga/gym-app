@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useSettings } from '../../context/SettingsContext';
 import Sidebar from './Sidebar';
 
 export default function Layout() {
   const { user, loading } = useAuth();
+  const { settings } = useSettings();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   if (loading) {
@@ -32,8 +34,12 @@ export default function Layout() {
             </svg>
           </button>
           <div className="flex items-center gap-2">
-            <span className="text-orange-500 text-xl">💪</span>
-            <span className="text-white font-bold">GymPro</span>
+            <div className="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center overflow-hidden text-sm flex-shrink-0">
+              {settings.gymLogo
+                ? <img src={settings.gymLogo} alt="logo" className="w-full h-full object-cover" />
+                : '💪'}
+            </div>
+            <span className="text-white font-bold truncate">{settings.gymName}</span>
           </div>
         </header>
 

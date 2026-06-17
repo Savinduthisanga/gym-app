@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSettings } from '../../context/SettingsContext';
 
 const MEMBERSHIP_TYPES = ['Basic', 'Standard', 'Premium', 'VIP'];
 
@@ -11,6 +12,7 @@ const INITIAL_FORM = {
 function Modal({ onClose, onSave }) {
   const [form, setForm] = useState(INITIAL_FORM);
   const [errors, setErrors] = useState({});
+  const { settings } = useSettings();
 
   const validate = () => {
     const errs = {};
@@ -83,8 +85,23 @@ function Modal({ onClose, onSave }) {
               onChange={e => setForm(p => ({ ...p, membershipType: e.target.value }))}
               className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm"
             >
-              {MEMBERSHIP_TYPES.map(t => <option key={t}>{t}</option>)}
+              {MEMBERSHIP_TYPES.map(t => {
+                const price = Number(settings.membershipPrices?.[t] || 0);
+                return (
+                  <option key={t} value={t}>
+                    {t}{price > 0 ? `  —  $${price.toFixed(2)}/mo` : ''}
+                  </option>
+                );
+              })}
             </select>
+            {(() => {
+              const price = Number(settings.membershipPrices?.[form.membershipType] || 0);
+              return price > 0 ? (
+                <p className="text-orange-400 text-xs mt-1">
+                  💰 ${price.toFixed(2)} / month
+                </p>
+              ) : null;
+            })()}
           </div>
           {field('joinDate', 'Join Date', 'date')}
           <div className="flex gap-3 pt-2">

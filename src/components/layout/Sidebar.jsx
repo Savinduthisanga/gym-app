@@ -1,17 +1,20 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useSettings } from '../../context/SettingsContext';
 
 const navItems = [
   { to: '/dashboard', icon: '🏠', label: 'Dashboard' },
-  { to: '/workouts', icon: '🏋️', label: 'Workouts' },
-  { to: '/members', icon: '👥', label: 'Members' },
-  { to: '/diet', icon: '🥗', label: 'Nutrition' },
-  { to: '/payments', icon: '💳', label: 'Payments' },
-  { to: '/reports',  icon: '📊', label: 'Reports' },
+  { to: '/workouts',  icon: '🏋️', label: 'Workouts' },
+  { to: '/members',   icon: '👥', label: 'Members' },
+  { to: '/diet',      icon: '🥗', label: 'Nutrition' },
+  { to: '/payments',  icon: '💳', label: 'Payments' },
+  { to: '/reports',   icon: '📊', label: 'Reports' },
+  { to: '/settings',  icon: '⚙️', label: 'Settings' },
 ];
 
 export default function Sidebar({ open, onClose }) {
   const { user, logout } = useAuth();
+  const { settings } = useSettings();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -22,10 +25,7 @@ export default function Sidebar({ open, onClose }) {
   return (
     <>
       {open && (
-        <div
-          className="fixed inset-0 bg-black/50 z-20 lg:hidden"
-          onClick={onClose}
-        />
+        <div className="fixed inset-0 bg-black/50 z-20 lg:hidden" onClick={onClose} />
       )}
 
       <aside
@@ -36,18 +36,22 @@ export default function Sidebar({ open, onClose }) {
           lg:translate-x-0 lg:static lg:z-auto
         `}
       >
+        {/* Brand */}
         <div className="p-6 border-b border-gray-800">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-xl">
-              💪
+            <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-xl overflow-hidden flex-shrink-0">
+              {settings.gymLogo
+                ? <img src={settings.gymLogo} alt="logo" className="w-full h-full object-cover" />
+                : '💪'}
             </div>
-            <div>
-              <h2 className="text-white font-bold text-lg leading-tight">GymPro</h2>
+            <div className="overflow-hidden">
+              <h2 className="text-white font-bold text-lg leading-tight truncate">{settings.gymName}</h2>
               <p className="text-gray-500 text-xs">Management System</p>
             </div>
           </div>
         </div>
 
+        {/* Nav */}
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
           {navItems.map(({ to, icon, label }) => (
             <NavLink
@@ -68,9 +72,10 @@ export default function Sidebar({ open, onClose }) {
           ))}
         </nav>
 
+        {/* User + logout */}
         <div className="p-4 border-t border-gray-800">
           <div className="flex items-center gap-3 mb-4 px-2">
-            <div className="w-9 h-9 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+            <div className="w-9 h-9 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
               {user?.name?.charAt(0).toUpperCase()}
             </div>
             <div className="overflow-hidden">

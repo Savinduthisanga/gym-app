@@ -9,6 +9,7 @@ const navItems = [
   { to: '/diet',      icon: '🥗', label: 'Nutrition' },
   { to: '/payments',  icon: '💳', label: 'Payments' },
   { to: '/reports',   icon: '📊', label: 'Reports' },
+  { to: '/export',    icon: '📤', label: 'Export' },
   { to: '/settings',  icon: '⚙️', label: 'Settings' },
 ];
 

@@ -7,6 +7,7 @@ import Dashboard from './components/dashboard/Dashboard';
 import WorkoutTracker from './components/workouts/WorkoutTracker';
 import MemberManagement from './components/members/MemberManagement';
 import DietTracker from './components/diet/DietTracker';
+import PaymentTracker from './components/payments/PaymentTracker';
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
             <Route path="/workouts" element={<WorkoutTracker />} />
             <Route path="/members" element={<MemberManagement />} />
             <Route path="/diet" element={<DietTracker />} />
+            <Route path="/payments" element={<PaymentTracker />} />
           </Route>
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>

@@ -38,16 +38,24 @@ export default function Dashboard() {
     const workouts = JSON.parse(localStorage.getItem('gym_workouts') || '[]');
     const members = JSON.parse(localStorage.getItem('gym_members') || '[]');
     const meals = JSON.parse(localStorage.getItem('gym_meals') || '[]');
+    const payments = JSON.parse(localStorage.getItem('gym_payments') || '[]');
 
     const today = new Date().toISOString().split('T')[0];
+    const thisMonth = today.slice(0, 7);
+
     const todayCalories = meals
       .filter(m => m.date === today)
       .reduce((sum, m) => sum + Number(m.calories || 0), 0);
+
+    const monthRevenue = payments
+      .filter(p => p.isPaid && p.paymentDate?.slice(0, 7) === thisMonth)
+      .reduce((sum, p) => sum + Number(p.amount || 0), 0);
 
     return {
       totalWorkouts: workouts.length,
       totalMembers: members.length,
       todayCalories,
+      monthRevenue,
     };
   }, []);
 
@@ -78,10 +86,11 @@ export default function Dashboard() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard icon="🏋️" label="Total Workouts" value={stats.totalWorkouts} color="bg-blue-500/20" to="/workouts" />
         <StatCard icon="👥" label="Total Members" value={stats.totalMembers} color="bg-green-500/20" to="/members" />
         <StatCard icon="🔥" label="Today's Calories" value={`${stats.todayCalories} kcal`} color="bg-orange-500/20" to="/diet" />
+        <StatCard icon="💰" label="Revenue This Month" value={`$${stats.monthRevenue.toFixed(2)}`} color="bg-emerald-500/20" to="/payments" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -91,6 +100,7 @@ export default function Dashboard() {
             <QuickAction icon="➕" label="Log Workout" desc="Track your session" to="/workouts" color="bg-blue-500/20" />
             <QuickAction icon="👤" label="Add Member" desc="Register new member" to="/members" color="bg-green-500/20" />
             <QuickAction icon="🥗" label="Log Meal" desc="Track your nutrition" to="/diet" color="bg-yellow-500/20" />
+            <QuickAction icon="💳" label="Record Payment" desc="Log member payments" to="/payments" color="bg-emerald-500/20" />
           </div>
         </div>
 

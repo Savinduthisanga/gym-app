@@ -2,6 +2,36 @@ import { useState, useEffect, useMemo } from 'react';
 
 const MEMBERSHIP_TYPES = ['Basic', 'Standard', 'Premium', 'VIP'];
 
+const PAYMENT_METHODS = [
+  {
+    name: 'Cash',
+    label: 'Cash',
+    icon: '💵',
+    badgeCls: 'bg-green-500/15 text-green-400 border-green-500/30',
+    activeCls: 'bg-green-500/20 text-green-400 border-green-500/50',
+    barCls: 'bg-green-500',
+    iconBg: 'bg-green-500/20',
+  },
+  {
+    name: 'Card',
+    label: 'Card',
+    icon: '💳',
+    badgeCls: 'bg-blue-500/15 text-blue-400 border-blue-500/30',
+    activeCls: 'bg-blue-500/20 text-blue-400 border-blue-500/50',
+    barCls: 'bg-blue-500',
+    iconBg: 'bg-blue-500/20',
+  },
+  {
+    name: 'Bank Transfer',
+    label: 'Bank Transfer',
+    icon: '🏦',
+    badgeCls: 'bg-purple-500/15 text-purple-400 border-purple-500/30',
+    activeCls: 'bg-purple-500/20 text-purple-400 border-purple-500/50',
+    barCls: 'bg-purple-500',
+    iconBg: 'bg-purple-500/20',
+  },
+];
+
 const today = () => new Date().toISOString().split('T')[0];
 
 function getStatus(payment) {
@@ -14,6 +44,16 @@ const STATUS_STYLE = {
   Pending: { badge: 'bg-yellow-500/15 text-yellow-400 border border-yellow-500/30', dot: 'bg-yellow-400' },
   Overdue: { badge: 'bg-red-500/15 text-red-400 border border-red-500/30',        dot: 'bg-red-400' },
 };
+
+function PaymentMethodBadge({ method }) {
+  const m = PAYMENT_METHODS.find(p => p.name === method) || PAYMENT_METHODS[0];
+  return (
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${m.badgeCls}`}>
+      <span>{m.icon}</span>
+      {m.label}
+    </span>
+  );
+}
 
 function StatusBadge({ status }) {
   const s = STATUS_STYLE[status];
@@ -35,6 +75,7 @@ function Modal({ onClose, onSave }) {
     memberName: '',
     amount: '',
     membershipType: 'Basic',
+    paymentMethod: 'Cash',
     paymentDate: today(),
     dueDate: '',
     isPaid: true,
@@ -136,6 +177,28 @@ function Modal({ onClose, onSave }) {
             </select>
           </div>
 
+          {/* Payment method */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Payment Method</label>
+            <div className="grid grid-cols-3 gap-2">
+              {PAYMENT_METHODS.map(m => (
+                <button
+                  key={m.name}
+                  type="button"
+                  onClick={() => set('paymentMethod', m.name)}
+                  className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border text-xs font-medium transition ${
+                    form.paymentMethod === m.name
+                      ? `${m.activeCls}`
+                      : 'border-gray-700 text-gray-400 hover:border-gray-600 hover:text-gray-300 bg-gray-800'
+                  }`}
+                >
+                  <span className="text-xl">{m.icon}</span>
+                  <span className="leading-tight text-center">{m.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Dates */}
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -235,13 +298,22 @@ export default function PaymentTracker() {
   // Stats
   const stats = useMemo(() => {
     const t = today();
-    const [ym, mm] = t.slice(0, 7).split('-');
-    const monthRevenue = enriched
-      .filter(p => p.isPaid && p.paymentDate?.slice(0, 7) === `${ym}-${mm}`)
+    const thisMonth = t.slice(0, 7);
+    const paid = enriched.filter(p => p.isPaid);
+
+    const monthRevenue = paid
+      .filter(p => p.paymentDate?.slice(0, 7) === thisMonth)
       .reduce((s, p) => s + p.amount, 0);
-    const totalRevenue = enriched.filter(p => p.isPaid).reduce((s, p) => s + p.amount, 0);
+    const totalRevenue = paid.reduce((s, p) => s + p.amount, 0);
     const pending = enriched.filter(p => p.status === 'Pending').length;
-    return { monthRevenue, totalRevenue, pending, overdue: overdue.length };
+
+    const byMethod = PAYMENT_METHODS.map(m => ({
+      ...m,
+      total: paid.filter(p => p.paymentMethod === m.name).reduce((s, p) => s + p.amount, 0),
+      count: enriched.filter(p => p.paymentMethod === m.name).length,
+    }));
+
+    return { monthRevenue, totalRevenue, pending, overdue: overdue.length, byMethod };
   }, [enriched, overdue]);
 
   const tabCount = (tab) => tab === 'All' ? enriched.length : enriched.filter(p => p.status === tab).length;
@@ -316,6 +388,37 @@ export default function PaymentTracker() {
         ))}
       </div>
 
+      {/* Method breakdown */}
+      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+        <h2 className="text-white font-semibold text-sm mb-4">Revenue by Payment Method</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {stats.byMethod.map(m => {
+            const pct = stats.totalRevenue > 0 ? (m.total / stats.totalRevenue) * 100 : 0;
+            return (
+              <div key={m.name} className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className={`w-10 h-10 ${m.iconBg} rounded-lg flex items-center justify-center text-xl flex-shrink-0`}>
+                    {m.icon}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-gray-400 text-xs">{m.label}</p>
+                    <p className="text-white font-bold text-lg leading-tight">${m.total.toFixed(2)}</p>
+                    <p className="text-gray-600 text-xs">{m.count} record{m.count !== 1 ? 's' : ''}</p>
+                  </div>
+                </div>
+                <div className="w-full bg-gray-800 rounded-full h-1.5">
+                  <div
+                    className={`h-1.5 rounded-full transition-all duration-500 ${m.barCls}`}
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
+                <p className="text-gray-600 text-xs text-right">{pct.toFixed(1)}% of revenue</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Filter + Search */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex gap-1 bg-gray-900 border border-gray-800 rounded-xl p-1 flex-wrap">
@@ -367,6 +470,7 @@ export default function PaymentTracker() {
                   <th className="px-4 py-3 font-medium">Amount</th>
                   <th className="px-4 py-3 font-medium hidden sm:table-cell">Payment Date</th>
                   <th className="px-4 py-3 font-medium hidden sm:table-cell">Due Date</th>
+                  <th className="px-4 py-3 font-medium hidden md:table-cell">Method</th>
                   <th className="px-4 py-3 font-medium">Status</th>
                   <th className="px-4 py-3 font-medium">Actions</th>
                 </tr>
@@ -395,6 +499,9 @@ export default function PaymentTracker() {
                     <td className={`px-4 py-3 hidden sm:table-cell font-medium ${p.status === 'Overdue' ? 'text-red-400' : 'text-gray-400'}`}>
                       {p.dueDate}
                       {p.status === 'Overdue' && <span className="ml-1 text-xs">⚠️</span>}
+                    </td>
+                    <td className="px-4 py-3 hidden md:table-cell">
+                      <PaymentMethodBadge method={p.paymentMethod} />
                     </td>
                     <td className="px-4 py-3">
                       <StatusBadge status={p.status} />

@@ -9,6 +9,7 @@ const navItems = [
   { to: '/diet',      icon: '🥗', label: 'Nutrition' },
   { to: '/payments',  icon: '💳', label: 'Payments' },
   { to: '/reports',   icon: '📊', label: 'Reports' },
+  { to: '/bookings',  icon: '📅', label: 'Bookings' },
   { to: '/equipment', icon: '🛠️', label: 'Equipment' },
   { to: '/export',    icon: '📤', label: 'Export' },
   { to: '/settings',  icon: '⚙️', label: 'Settings' },

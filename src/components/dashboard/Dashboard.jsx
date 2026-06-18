@@ -3,8 +3,26 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useSettings } from '../../context/SettingsContext';
 
-const WEEK_DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const WEEK_DAYS  = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const DAYS_ORDER = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+const BOOKING_CLASS_ICON = {
+  'General Workout': '🏋️', 'Yoga': '🧘', 'Zumba': '💃', 'Cardio': '🏃', 'Strength Training': '💪',
+};
+
+function fmtTime(t) {
+  if (!t) return '';
+  const [h, m] = t.split(':').map(Number);
+  return `${h % 12 || 12}:${String(m).padStart(2, '0')} ${h >= 12 ? 'PM' : 'AM'}`;
+}
+
+function slotBadge(booked, max) {
+  if (max === 0) return 'bg-green-500/15 text-green-400 border border-green-500/30';
+  const pct = booked / max;
+  if (pct >= 1)   return 'bg-red-500/15 text-red-400 border border-red-500/30';
+  if (pct >= 0.7) return 'bg-yellow-500/15 text-yellow-400 border border-yellow-500/30';
+  return 'bg-green-500/15 text-green-400 border border-green-500/30';
+}
 
 function StatCard({ icon, label, value, color, to }) {
   return (
@@ -73,17 +91,39 @@ export default function Dashboard() {
       return Math.ceil((new Date(e.nextMaintenanceDate) - new Date()) / 86400000) <= 7;
     }).length;
 
+    const gymSlots    = JSON.parse(localStorage.getItem('gym_slots')    || '[]');
+    const gymBookings = JSON.parse(localStorage.getItem('gym_bookings') || '[]');
+    const todaySlots  = gymSlots.filter(s => s.date === today);
+    const todayBookingsCount = gymBookings.filter(
+      b => b.status === 'active' && todaySlots.some(s => s.id === b.slotId)
+    ).length;
+
     return {
       totalWorkouts: workouts.length,
-      totalMembers: members.length,
+      totalMembers:  members.length,
       todayCalories,
       monthRevenue,
-      equipTotal:   equip.length,
-      equipWorking: equip.filter(e => e.status === 'Working').length,
-      equipMaint:   equip.filter(e => e.status === 'Under Maintenance').length,
-      equipOut:     equip.filter(e => e.status === 'Out of Order').length,
+      equipTotal:    equip.length,
+      equipWorking:  equip.filter(e => e.status === 'Working').length,
+      equipMaint:    equip.filter(e => e.status === 'Under Maintenance').length,
+      equipOut:      equip.filter(e => e.status === 'Out of Order').length,
       equipAlerts,
+      todayClasses:  todaySlots.length,
+      todayBookingsCount,
     };
+  }, []);
+
+  const todaySchedule = useMemo(() => {
+    const today    = new Date().toISOString().split('T')[0];
+    const slots    = JSON.parse(localStorage.getItem('gym_slots')    || '[]');
+    const bookings = JSON.parse(localStorage.getItem('gym_bookings') || '[]');
+    return slots
+      .filter(s => s.date === today)
+      .sort((a, b) => a.startTime.localeCompare(b.startTime))
+      .map(s => ({
+        ...s,
+        bookedCount: bookings.filter(b => b.slotId === s.id && b.status === 'active').length,
+      }));
   }, []);
 
   const greeting = () => {
@@ -250,6 +290,41 @@ export default function Dashboard() {
                 </Link>
               </div>
             )}
+          </div>
+        )}
+      </div>
+
+      {/* Today's Classes */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-white font-semibold text-lg">Today's Classes</h2>
+            {stats.todayBookingsCount > 0 && (
+              <p className="text-gray-500 text-xs mt-0.5">{stats.todayBookingsCount} booking{stats.todayBookingsCount !== 1 ? 's' : ''} today</p>
+            )}
+          </div>
+          <Link to="/bookings" className="text-gray-500 hover:text-orange-400 text-xs transition">View all →</Link>
+        </div>
+        {todaySchedule.length === 0 ? (
+          <div className="bg-gray-900 border border-gray-800 rounded-xl p-5 text-center text-gray-500 text-sm">
+            No classes scheduled today.{' '}
+            <Link to="/bookings" className="text-orange-400 hover:underline">Add a class!</Link>
+          </div>
+        ) : (
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl divide-y divide-gray-800">
+            {todaySchedule.map(s => (
+              <div key={s.id} className="flex items-center gap-4 px-5 py-3">
+                <p className="text-gray-500 text-xs w-20 flex-shrink-0">{fmtTime(s.startTime)}</p>
+                <span className="text-lg flex-shrink-0">{BOOKING_CLASS_ICON[s.className] || '📅'}</span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-white text-sm font-medium truncate">{s.className}</p>
+                  <p className="text-gray-500 text-xs truncate">{s.trainerName}</p>
+                </div>
+                <span className={`text-xs px-2 py-0.5 rounded-full font-medium flex-shrink-0 ${slotBadge(s.bookedCount, s.maxCapacity)}`}>
+                  {s.bookedCount}/{s.maxCapacity}
+                </span>
+              </div>
+            ))}
           </div>
         )}
       </div>

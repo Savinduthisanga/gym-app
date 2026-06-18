@@ -13,6 +13,7 @@ import Reports from './components/reports/Reports';
 import Settings from './components/settings/Settings';
 import ExportData from './components/export/ExportData';
 import EquipmentManagement from './components/equipment/EquipmentManagement';
+import ClassBookings from './components/bookings/ClassBookings';
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
             <Route path="/diet" element={<DietTracker />} />
             <Route path="/payments" element={<PaymentTracker />} />
             <Route path="/reports" element={<Reports />} />
+            <Route path="/bookings" element={<ClassBookings />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/equipment" element={<EquipmentManagement />} />
             <Route path="/export" element={<ExportData />} />

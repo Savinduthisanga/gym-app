@@ -5,14 +5,14 @@ const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 const MEMBERSHIP_TYPES = ['Basic', 'Standard', 'Premium', 'VIP'];
 
 const PRICE_COLORS = {
-  Basic: 'text-gray-400', Standard: 'text-blue-400', Premium: 'text-purple-400', VIP: 'text-orange-400',
+  Basic: 'text-gray-500', Standard: 'text-blue-700', Premium: 'text-purple-700', VIP: 'text-orange-600',
 };
 
 function SectionCard({ title, subtitle, children }) {
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+    <div className="bg-white border border-gray-200 rounded-2xl p-6">
       <div className="mb-5">
-        <h2 className="text-white font-semibold text-base">{title}</h2>
+        <h2 className="text-gray-900 font-semibold text-base">{title}</h2>
         {subtitle && <p className="text-gray-500 text-xs mt-0.5">{subtitle}</p>}
       </div>
       {children}
@@ -23,14 +23,14 @@ function SectionCard({ title, subtitle, children }) {
 function Field({ label, hint, children }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-300 mb-1">{label}</label>
+      <label className="block text-sm font-medium text-gray-600 mb-1">{label}</label>
       {children}
       {hint && <p className="text-gray-600 text-xs mt-1">{hint}</p>}
     </div>
   );
 }
 
-const INPUT_CLS = 'w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm transition';
+const INPUT_CLS = 'w-full bg-gray-100 border border-gray-300 rounded-lg px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm transition';
 
 export default function Settings() {
   const { settings, saveSettings } = useSettings();
@@ -85,12 +85,12 @@ export default function Settings() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Settings</h1>
-          <p className="text-gray-400 text-sm mt-0.5">Manage your gym configuration</p>
+          <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
+          <p className="text-gray-500 text-sm mt-0.5">Manage your gym configuration</p>
         </div>
         <button
           onClick={handleReset}
-          className="text-gray-500 hover:text-gray-300 text-sm px-3 py-1.5 rounded-lg border border-gray-800 hover:border-gray-700 transition"
+          className="text-gray-500 hover:text-gray-600 text-sm px-3 py-1.5 rounded-lg border border-gray-200 hover:border-gray-300 transition"
         >
           Reset defaults
         </button>
@@ -98,7 +98,7 @@ export default function Settings() {
 
       {/* Success toast */}
       {saved && (
-        <div className="bg-green-500/15 border border-green-500/30 text-green-400 rounded-xl px-4 py-3 flex items-center gap-3 text-sm animate-pulse">
+        <div className="bg-green-100 border border-green-200 text-green-700 rounded-xl px-4 py-3 flex items-center gap-3 text-sm animate-pulse">
           <span className="text-lg">✅</span>
           <span className="font-medium">Settings saved successfully!</span>
         </div>
@@ -108,9 +108,9 @@ export default function Settings() {
       <SectionCard title="Gym Information" subtitle="Basic details displayed throughout the app">
         {/* Logo upload */}
         <div className="mb-5">
-          <label className="block text-sm font-medium text-gray-300 mb-2">Gym Logo</label>
+          <label className="block text-sm font-medium text-gray-600 mb-2">Gym Logo</label>
           <div className="flex items-center gap-4">
-            <div className="w-20 h-20 rounded-2xl border-2 border-dashed border-gray-700 flex items-center justify-center flex-shrink-0 overflow-hidden bg-gray-800">
+            <div className="w-20 h-20 rounded-2xl border-2 border-dashed border-gray-300 flex items-center justify-center flex-shrink-0 overflow-hidden bg-gray-100">
               {form.gymLogo ? (
                 <img src={form.gymLogo} alt="Gym logo" className="w-full h-full object-cover" />
               ) : (
@@ -128,7 +128,7 @@ export default function Settings() {
               />
               <label
                 htmlFor="logo-upload"
-                className="cursor-pointer inline-block bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-300 text-sm px-4 py-2 rounded-lg transition"
+                className="cursor-pointer inline-block bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-600 text-sm px-4 py-2 rounded-lg transition"
               >
                 Upload Image
               </label>
@@ -136,13 +136,13 @@ export default function Settings() {
                 <button
                   type="button"
                   onClick={removeLogo}
-                  className="block text-red-400 hover:text-red-300 text-xs transition"
+                  className="block text-red-600 hover:text-red-300 text-xs transition"
                 >
                   Remove logo
                 </button>
               )}
               <p className="text-gray-600 text-xs">PNG, JPG, GIF · Max 2 MB</p>
-              {logoError && <p className="text-red-400 text-xs">{logoError}</p>}
+              {logoError && <p className="text-red-600 text-xs">{logoError}</p>}
             </div>
           </div>
         </div>
@@ -196,13 +196,13 @@ export default function Settings() {
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {MEMBERSHIP_TYPES.map(type => (
-            <div key={type} className="bg-gray-800 rounded-xl p-4">
+            <div key={type} className="bg-gray-100 rounded-xl p-4">
               <div className="flex items-center justify-between mb-3">
                 <span className={`text-sm font-semibold ${PRICE_COLORS[type]}`}>{type}</span>
                 <span className="text-gray-600 text-xs">per month</span>
               </div>
               <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm font-medium">$</span>
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm font-medium">$</span>
                 <input
                   type="number"
                   min="0"
@@ -210,7 +210,7 @@ export default function Settings() {
                   value={form.membershipPrices[type]}
                   onChange={e => setPrice(type, e.target.value)}
                   placeholder="0.00"
-                  className="w-full bg-gray-700 border border-gray-600 rounded-lg pl-7 pr-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm"
+                  className="w-full bg-gray-200 border border-gray-300 rounded-lg pl-7 pr-3 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm"
                 />
               </div>
             </div>
@@ -230,11 +230,11 @@ export default function Settings() {
               <div
                 key={day}
                 className={`flex flex-col sm:flex-row sm:items-center gap-3 p-3 rounded-xl border transition ${
-                  h.open ? 'border-gray-800 bg-gray-800/40' : 'border-gray-800/50 bg-gray-800/10'
+                  h.open ? 'border-gray-200 bg-gray-50' : 'border-gray-200/50 bg-gray-100/10'
                 }`}
               >
                 {/* Day name */}
-                <span className={`w-24 text-sm font-medium flex-shrink-0 ${h.open ? 'text-white' : 'text-gray-600'}`}>
+                <span className={`w-24 text-sm font-medium flex-shrink-0 ${h.open ? 'text-gray-900' : 'text-gray-600'}`}>
                   {day.slice(0, 3)}
                   <span className="hidden sm:inline">{day.slice(3)}</span>
                 </span>
@@ -245,8 +245,8 @@ export default function Settings() {
                   onClick={() => setHours(day, 'open', !h.open)}
                   className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold transition flex-shrink-0 w-24 justify-center ${
                     h.open
-                      ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                      : 'bg-gray-700 text-gray-500 border border-gray-700'
+                      ? 'bg-green-100 text-green-700 border border-green-200'
+                      : 'bg-gray-200 text-gray-500 border border-gray-300'
                   }`}
                 >
                   <span className={`w-1.5 h-1.5 rounded-full ${h.open ? 'bg-green-400' : 'bg-gray-600'}`} />
@@ -260,7 +260,7 @@ export default function Settings() {
                     value={h.openTime}
                     onChange={e => setHours(day, 'openTime', e.target.value)}
                     disabled={!h.open}
-                    className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-1.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 flex-1 min-w-0"
+                    className="bg-gray-100 border border-gray-300 rounded-lg px-3 py-1.5 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 flex-1 min-w-0"
                   />
                   <span className="text-gray-600 text-sm flex-shrink-0">—</span>
                   <input
@@ -268,7 +268,7 @@ export default function Settings() {
                     value={h.closeTime}
                     onChange={e => setHours(day, 'closeTime', e.target.value)}
                     disabled={!h.open}
-                    className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-1.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 flex-1 min-w-0"
+                    className="bg-gray-100 border border-gray-300 rounded-lg px-3 py-1.5 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 flex-1 min-w-0"
                   />
                 </div>
               </div>
@@ -278,7 +278,7 @@ export default function Settings() {
       </SectionCard>
 
       {/* Save */}
-      <div className="flex items-center justify-between bg-gray-900 border border-gray-800 rounded-2xl px-6 py-4">
+      <div className="flex items-center justify-between bg-white border border-gray-200 rounded-2xl px-6 py-4">
         <p className="text-gray-500 text-sm">Changes apply immediately after saving.</p>
         <button
           onClick={handleSave}

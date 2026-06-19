@@ -100,11 +100,11 @@ function openPrintWindow(gymName, gymLogo, title, bodyHTML) {
 
 function ExportCard({ icon, iconBg, title, description, items, btnLabel = 'Export', btnColor, onExport, loading }) {
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5 flex flex-col">
+    <div className="bg-white border border-gray-200 rounded-2xl p-5 flex flex-col">
       <div className={`w-10 h-10 ${iconBg} rounded-xl flex items-center justify-center text-xl mb-3 flex-shrink-0`}>
         {icon}
       </div>
-      <h3 className="text-white font-semibold text-sm mb-1">{title}</h3>
+      <h3 className="text-gray-900 font-semibold text-sm mb-1">{title}</h3>
       <p className="text-gray-500 text-xs mb-2 leading-relaxed">{description}</p>
       <ul className="text-gray-600 text-xs space-y-0.5 mb-4 flex-1">
         {items.map(i => <li key={i} className="flex items-start gap-1"><span className="text-gray-700 mt-0.5">·</span>{i}</li>)}
@@ -113,7 +113,7 @@ function ExportCard({ icon, iconBg, title, description, items, btnLabel = 'Expor
         onClick={onExport}
         disabled={loading}
         className={`w-full py-2 rounded-xl text-xs font-semibold transition disabled:opacity-40 ${
-          btnColor || 'bg-gray-800 hover:bg-gray-700 border border-gray-700 hover:border-gray-600 text-gray-300 hover:text-white'
+          btnColor || 'bg-gray-100 hover:bg-gray-200 border border-gray-300 hover:border-gray-300 text-gray-600 hover:text-gray-900'
         }`}
       >
         {loading ? 'Exporting…' : btnLabel}
@@ -131,7 +131,7 @@ function SectionHeader({ icon, iconBg, title, subtitle }) {
         {icon}
       </div>
       <div>
-        <h2 className="text-white font-semibold">{title}</h2>
+        <h2 className="text-gray-900 font-semibold">{title}</h2>
         <p className="text-gray-500 text-xs">{subtitle}</p>
       </div>
     </div>
@@ -384,15 +384,15 @@ export default function ExportData() {
   return (
     <div className="max-w-5xl mx-auto space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-white">Export Data</h1>
-        <p className="text-gray-400 text-sm mt-0.5">Download your gym data as PDF, Excel, or print formatted reports</p>
+        <h1 className="text-2xl font-bold text-gray-900">Export Data</h1>
+        <p className="text-gray-500 text-sm mt-0.5">Download your gym data as PDF, Excel, or print formatted reports</p>
       </div>
 
       {toast && (
         <div className={`border rounded-xl px-4 py-3 flex items-center gap-3 text-sm transition ${
           toast.type === 'error'
-            ? 'bg-red-500/10 border-red-500/30 text-red-400'
-            : 'bg-green-500/10 border-green-500/30 text-green-400'
+            ? 'bg-red-50 border-red-200 text-red-600'
+            : 'bg-green-50 border-green-200 text-green-700'
         }`}>
           <span className="text-lg flex-shrink-0">{toast.type === 'error' ? '❌' : '✅'}</span>
           {toast.message}
@@ -401,69 +401,69 @@ export default function ExportData() {
 
       {/* PDF */}
       <section>
-        <SectionHeader icon="📄" iconBg="bg-red-500/20" title="Export to PDF"
+        <SectionHeader icon="📄" iconBg="bg-red-100" title="Export to PDF"
           subtitle="Printable PDFs with gym name and logo header" />
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <ExportCard icon="👥" iconBg="bg-green-500/20" title="Members List"
+          <ExportCard icon="👥" iconBg="bg-green-100" title="Members List"
             description="Full member directory as a formatted PDF document."
             items={['Name, email & phone', 'Membership type', 'Join date']}
-            btnLabel="Download PDF" btnColor="bg-red-500/15 hover:bg-red-500/25 border border-red-500/30 text-red-400 hover:text-red-300"
+            btnLabel="Download PDF" btnColor="bg-red-100 hover:bg-red-500/25 border border-red-200 text-red-600 hover:text-red-300"
             onExport={exportMembersPDF} loading={loading.membersPDF} />
-          <ExportCard icon="💳" iconBg="bg-blue-500/20" title="Payment History"
+          <ExportCard icon="💳" iconBg="bg-blue-100" title="Payment History"
             description="Complete payment records exported in landscape format."
             items={['Member name & amount', 'Payment method & dates', 'Colour-coded status']}
-            btnLabel="Download PDF" btnColor="bg-red-500/15 hover:bg-red-500/25 border border-red-500/30 text-red-400 hover:text-red-300"
+            btnLabel="Download PDF" btnColor="bg-red-100 hover:bg-red-500/25 border border-red-200 text-red-600 hover:text-red-300"
             onExport={exportPaymentsPDF} loading={loading.paymentsPDF} />
-          <ExportCard icon="🏋️" iconBg="bg-purple-500/20" title="Workout History"
+          <ExportCard icon="🏋️" iconBg="bg-purple-100" title="Workout History"
             description="All logged workout sessions with volume calculations."
             items={['Exercise name', 'Sets, reps & weight', 'Total volume per session']}
-            btnLabel="Download PDF" btnColor="bg-red-500/15 hover:bg-red-500/25 border border-red-500/30 text-red-400 hover:text-red-300"
+            btnLabel="Download PDF" btnColor="bg-red-100 hover:bg-red-500/25 border border-red-200 text-red-600 hover:text-red-300"
             onExport={exportWorkoutsPDF} loading={loading.workoutsPDF} />
         </div>
       </section>
 
       {/* Excel */}
       <section>
-        <SectionHeader icon="📊" iconBg="bg-green-500/20" title="Export to Excel"
+        <SectionHeader icon="📊" iconBg="bg-green-100" title="Export to Excel"
           subtitle="Download as .xlsx — open in Excel, Google Sheets, or Numbers" />
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <ExportCard icon="👥" iconBg="bg-green-500/20" title="Members List"
+          <ExportCard icon="👥" iconBg="bg-green-100" title="Members List"
             description="Member data ready for spreadsheet analysis and filtering."
             items={['All member fields', 'Clean column headers', 'Ready to sort & filter']}
-            btnLabel="Download .xlsx" btnColor="bg-green-500/15 hover:bg-green-500/25 border border-green-500/30 text-green-400 hover:text-green-300"
+            btnLabel="Download .xlsx" btnColor="bg-green-100 hover:bg-green-500/25 border border-green-200 text-green-700 hover:text-green-300"
             onExport={exportMembersExcel} loading={loading.membersXLSX} />
-          <ExportCard icon="💳" iconBg="bg-blue-500/20" title="Payment History"
+          <ExportCard icon="💳" iconBg="bg-blue-100" title="Payment History"
             description="Payment records with computed status and method columns."
             items={['Amount & payment method', 'Computed status column', 'Both dates included']}
-            btnLabel="Download .xlsx" btnColor="bg-green-500/15 hover:bg-green-500/25 border border-green-500/30 text-green-400 hover:text-green-300"
+            btnLabel="Download .xlsx" btnColor="bg-green-100 hover:bg-green-500/25 border border-green-200 text-green-700 hover:text-green-300"
             onExport={exportPaymentsExcel} loading={loading.paymentsXLSX} />
-          <ExportCard icon="🏋️" iconBg="bg-purple-500/20" title="Workout History"
+          <ExportCard icon="🏋️" iconBg="bg-purple-100" title="Workout History"
             description="Workout sessions with pre-calculated volume column."
             items={['Sets, reps & weight', 'Volume pre-calculated', 'Sorted newest first']}
-            btnLabel="Download .xlsx" btnColor="bg-green-500/15 hover:bg-green-500/25 border border-green-500/30 text-green-400 hover:text-green-300"
+            btnLabel="Download .xlsx" btnColor="bg-green-100 hover:bg-green-500/25 border border-green-200 text-green-700 hover:text-green-300"
             onExport={exportWorkoutsExcel} loading={loading.workoutsXLSX} />
         </div>
       </section>
 
       {/* Print */}
       <section>
-        <SectionHeader icon="🖨️" iconBg="bg-orange-500/20" title="Print Reports"
+        <SectionHeader icon="🖨️" iconBg="bg-orange-100" title="Print Reports"
           subtitle="Opens a formatted print-ready page in a new window" />
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <ExportCard icon="💰" iconBg="bg-emerald-500/20" title="Monthly Revenue"
+          <ExportCard icon="💰" iconBg="bg-emerald-100" title="Monthly Revenue"
             description="Revenue summary with 12-month breakdown and method totals."
             items={['Summary stat cards', '12-month revenue table', 'Payment method totals']}
-            btnLabel="Open Print View" btnColor="bg-orange-500/15 hover:bg-orange-500/25 border border-orange-500/30 text-orange-400 hover:text-orange-300"
+            btnLabel="Open Print View" btnColor="bg-orange-100 hover:bg-orange-500/25 border border-orange-200 text-orange-600 hover:text-orange-300"
             onExport={printMonthlyRevenue} loading={false} />
-          <ExportCard icon="👥" iconBg="bg-green-500/20" title="Member List"
+          <ExportCard icon="👥" iconBg="bg-green-100" title="Member List"
             description="Clean member directory with plan distribution summary."
             items={['Members by plan type', 'Full member table']}
-            btnLabel="Open Print View" btnColor="bg-orange-500/15 hover:bg-orange-500/25 border border-orange-500/30 text-orange-400 hover:text-orange-300"
+            btnLabel="Open Print View" btnColor="bg-orange-100 hover:bg-orange-500/25 border border-orange-200 text-orange-600 hover:text-orange-300"
             onExport={printMemberList} loading={false} />
-          <ExportCard icon="🏋️" iconBg="bg-purple-500/20" title="Workout Report"
+          <ExportCard icon="🏋️" iconBg="bg-purple-100" title="Workout Report"
             description="Workout history with total volume and this-week stats."
             items={['Summary cards', 'Full history table', 'Sorted newest first']}
-            btnLabel="Open Print View" btnColor="bg-orange-500/15 hover:bg-orange-500/25 border border-orange-500/30 text-orange-400 hover:text-orange-300"
+            btnLabel="Open Print View" btnColor="bg-orange-100 hover:bg-orange-500/25 border border-orange-200 text-orange-600 hover:text-orange-300"
             onExport={printWorkoutReport} loading={false} />
         </div>
       </section>

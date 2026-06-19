@@ -9,20 +9,20 @@ const CATEGORY_ICON = {
   Cardio: '🏃', Strength: '💪', Flexibility: '🤸', Accessories: '🎯',
 };
 const CATEGORY_COLOR = {
-  Cardio:       'bg-blue-500/20 text-blue-400',
-  Strength:     'bg-orange-500/20 text-orange-400',
-  Flexibility:  'bg-purple-500/20 text-purple-400',
-  Accessories:  'bg-teal-500/20 text-teal-400',
+  Cardio:       'bg-blue-100 text-blue-700',
+  Strength:     'bg-orange-100 text-orange-600',
+  Flexibility:  'bg-purple-100 text-purple-700',
+  Accessories:  'bg-teal-100 text-teal-700',
 };
 const STATUS_STYLE = {
-  'Working':           { badge: 'bg-green-500/15 text-green-400 border border-green-500/30',   dot: 'bg-green-400'  },
-  'Under Maintenance': { badge: 'bg-yellow-500/15 text-yellow-400 border border-yellow-500/30', dot: 'bg-yellow-400' },
-  'Out of Order':      { badge: 'bg-red-500/15 text-red-400 border border-red-500/30',          dot: 'bg-red-400'    },
+  'Working':           { badge: 'bg-green-100 text-green-700 border border-green-200',   dot: 'bg-green-400'  },
+  'Under Maintenance': { badge: 'bg-yellow-100 text-yellow-700 border border-yellow-200', dot: 'bg-yellow-400' },
+  'Out of Order':      { badge: 'bg-red-100 text-red-600 border border-red-200',          dot: 'bg-red-400'    },
 };
 const TYPE_COLOR = {
-  'Routine Check': 'bg-blue-500/15 text-blue-400',
-  'Repair':        'bg-red-500/15 text-red-400',
-  'Replacement':   'bg-purple-500/15 text-purple-400',
+  'Routine Check': 'bg-blue-100 text-blue-700',
+  'Repair':        'bg-red-100 text-red-600',
+  'Replacement':   'bg-purple-100 text-purple-700',
 };
 const NEXT_DAYS = { 'Routine Check': 30, 'Repair': 7, 'Replacement': 90 };
 
@@ -83,59 +83,59 @@ function AddEquipmentModal({ onClose, onSave }) {
   };
 
   const cls = (k) =>
-    `w-full bg-gray-800 border rounded-lg px-3 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm ${errors[k] ? 'border-red-500' : 'border-gray-700'}`;
+    `w-full bg-gray-100 border rounded-lg px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm ${errors[k] ? 'border-red-500' : 'border-gray-300'}`;
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4">
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+      <div className="bg-white border border-gray-200 rounded-2xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-white font-bold text-lg">Add Equipment</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-white text-xl">✕</button>
+          <h2 className="text-gray-900 font-bold text-lg">Add Equipment</h2>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-900 text-xl">✕</button>
         </div>
         <form onSubmit={submit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Equipment Name</label>
+            <label className="block text-sm font-medium text-gray-600 mb-1">Equipment Name</label>
             <input type="text" value={form.name} onChange={e => set('name', e.target.value)}
               placeholder="e.g. Treadmill Pro 3000" className={cls('name')} />
-            {errors.name && <p className="text-red-400 text-xs mt-0.5">{errors.name}</p>}
+            {errors.name && <p className="text-red-600 text-xs mt-0.5">{errors.name}</p>}
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Category</label>
+              <label className="block text-sm font-medium text-gray-600 mb-1">Category</label>
               <select value={form.category} onChange={e => set('category', e.target.value)} className={cls('category')}>
                 {CATEGORIES.map(c => <option key={c}>{c}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Brand</label>
+              <label className="block text-sm font-medium text-gray-600 mb-1">Brand</label>
               <input type="text" value={form.brand} onChange={e => set('brand', e.target.value)}
                 placeholder="e.g. Life Fitness" className={cls('brand')} />
-              {errors.brand && <p className="text-red-400 text-xs mt-0.5">{errors.brand}</p>}
+              {errors.brand && <p className="text-red-600 text-xs mt-0.5">{errors.brand}</p>}
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Purchase Date</label>
+              <label className="block text-sm font-medium text-gray-600 mb-1">Purchase Date</label>
               <input type="date" value={form.purchaseDate} onChange={e => set('purchaseDate', e.target.value)} className={cls('purchaseDate')} />
-              {errors.purchaseDate && <p className="text-red-400 text-xs mt-0.5">{errors.purchaseDate}</p>}
+              {errors.purchaseDate && <p className="text-red-600 text-xs mt-0.5">{errors.purchaseDate}</p>}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Purchase Price ($)</label>
+              <label className="block text-sm font-medium text-gray-600 mb-1">Purchase Price ($)</label>
               <input type="number" min="0" step="0.01" value={form.purchasePrice}
                 onChange={e => set('purchasePrice', e.target.value)} placeholder="0.00" className={cls('purchasePrice')} />
-              {errors.purchasePrice && <p className="text-red-400 text-xs mt-0.5">{errors.purchasePrice}</p>}
+              {errors.purchasePrice && <p className="text-red-600 text-xs mt-0.5">{errors.purchasePrice}</p>}
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Initial Status</label>
+            <label className="block text-sm font-medium text-gray-600 mb-2">Initial Status</label>
             <div className="flex gap-2">
               {STATUSES.map(s => (
                 <button key={s} type="button" onClick={() => set('status', s)}
                   className={`flex-1 py-2 rounded-lg text-xs font-medium border transition ${
-                    form.status === s ? STATUS_STYLE[s].badge : 'border-gray-700 text-gray-500 hover:border-gray-600 hover:text-gray-300'
+                    form.status === s ? STATUS_STYLE[s].badge : 'border-gray-300 text-gray-500 hover:border-gray-300 hover:text-gray-600'
                   }`}>
                   {s === 'Under Maintenance' ? 'Maint.' : s.split(' ')[0]}
                 </button>
@@ -144,7 +144,7 @@ function AddEquipmentModal({ onClose, onSave }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-gray-600 mb-1">
               Next Maintenance Date <span className="text-gray-600 font-normal">(optional)</span>
             </label>
             <input type="date" value={form.nextMaintenanceDate} onChange={e => set('nextMaintenanceDate', e.target.value)}
@@ -153,7 +153,7 @@ function AddEquipmentModal({ onClose, onSave }) {
 
           <div className="flex gap-3 pt-2">
             <button type="button" onClick={onClose}
-              className="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-300 py-2.5 rounded-lg text-sm transition">Cancel</button>
+              className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-600 py-2.5 rounded-lg text-sm transition">Cancel</button>
             <button type="submit"
               className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 rounded-lg text-sm transition">Add Equipment</button>
           </div>
@@ -193,28 +193,28 @@ function LogMaintenanceModal({ equipment, onClose, onSave }) {
     onClose();
   };
 
-  const inputCls = 'w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm';
+  const inputCls = 'w-full bg-gray-100 border border-gray-300 rounded-lg px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm';
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4">
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 w-full max-w-md">
+      <div className="bg-white border border-gray-200 rounded-2xl p-6 w-full max-w-md">
         <div className="flex items-start justify-between mb-5">
           <div>
-            <h2 className="text-white font-bold text-lg">Log Maintenance</h2>
+            <h2 className="text-gray-900 font-bold text-lg">Log Maintenance</h2>
             <p className="text-gray-500 text-xs mt-0.5">{equipment.name}</p>
           </div>
-          <button onClick={onClose} className="text-gray-500 hover:text-white text-xl">✕</button>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-900 text-xl">✕</button>
         </div>
         <form onSubmit={submit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Type</label>
+            <label className="block text-sm font-medium text-gray-600 mb-2">Type</label>
             <div className="flex gap-2">
               {MAINTENANCE_TYPES.map(t => (
                 <button key={t} type="button" onClick={() => handleType(t)}
                   className={`flex-1 py-2 rounded-lg text-xs font-medium border transition ${
                     type === t
-                      ? 'bg-orange-500/20 text-orange-400 border-orange-500/50'
-                      : 'border-gray-700 text-gray-500 hover:border-gray-600 hover:text-gray-300'
+                      ? 'bg-orange-100 text-orange-600 border-orange-300'
+                      : 'border-gray-300 text-gray-500 hover:border-gray-300 hover:text-gray-600'
                   }`}>{t}</button>
               ))}
             </div>
@@ -222,38 +222,38 @@ function LogMaintenanceModal({ equipment, onClose, onSave }) {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Date</label>
+              <label className="block text-sm font-medium text-gray-600 mb-1">Date</label>
               <input type="date" value={date} onChange={e => handleDate(e.target.value)} className={inputCls} required />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1">Cost ($)</label>
+              <label className="block text-sm font-medium text-gray-600 mb-1">Cost ($)</label>
               <input type="number" min="0" step="0.01" value={cost}
                 onChange={e => { setCost(e.target.value); setCostErr(''); }}
                 placeholder="0.00"
                 className={`${inputCls} ${costErr ? 'border-red-500' : ''}`} />
-              {costErr && <p className="text-red-400 text-xs mt-0.5">{costErr}</p>}
+              {costErr && <p className="text-red-600 text-xs mt-0.5">{costErr}</p>}
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-gray-600 mb-1">
               Notes <span className="text-gray-600 font-normal">(optional)</span>
             </label>
             <textarea value={notes} onChange={e => setNotes(e.target.value)}
               placeholder="What was done, parts replaced, observations..."
               rows={3}
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm resize-none" />
+              className="w-full bg-gray-100 border border-gray-300 rounded-lg px-3 py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm resize-none" />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">Schedule Next Maintenance</label>
+            <label className="block text-sm font-medium text-gray-600 mb-1">Schedule Next Maintenance</label>
             <input type="date" value={nextDate} onChange={e => setNextDate(e.target.value)} className={inputCls} />
             <p className="text-gray-600 text-xs mt-1">Auto-suggested based on type · adjust as needed</p>
           </div>
 
           <div className="flex gap-3 pt-2">
             <button type="button" onClick={onClose}
-              className="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-300 py-2.5 rounded-lg text-sm transition">Cancel</button>
+              className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-600 py-2.5 rounded-lg text-sm transition">Cancel</button>
             <button type="submit"
               className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 rounded-lg text-sm transition">Save Record</button>
           </div>
@@ -271,15 +271,15 @@ function HistoryModal({ equipment, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4">
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 w-full max-w-lg max-h-[85vh] flex flex-col">
+      <div className="bg-white border border-gray-200 rounded-2xl p-6 w-full max-w-lg max-h-[85vh] flex flex-col">
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h2 className="text-white font-bold text-lg">{equipment.name}</h2>
+            <h2 className="text-gray-900 font-bold text-lg">{equipment.name}</h2>
             <p className="text-gray-500 text-xs mt-0.5">
               {records.length} record{records.length !== 1 ? 's' : ''} · ${totalCost.toFixed(2)} total spent
             </p>
           </div>
-          <button onClick={onClose} className="text-gray-500 hover:text-white text-xl flex-shrink-0">✕</button>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-900 text-xl flex-shrink-0">✕</button>
         </div>
 
         {records.length === 0 ? (
@@ -290,18 +290,18 @@ function HistoryModal({ equipment, onClose }) {
         ) : (
           <div className="overflow-y-auto flex-1 space-y-3 pr-1">
             {records.map(r => (
-              <div key={r.id} className="bg-gray-800 rounded-xl p-4">
+              <div key={r.id} className="bg-gray-100 rounded-xl p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center flex-wrap gap-2 mb-1">
-                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${TYPE_COLOR[r.type] || 'bg-gray-700 text-gray-300'}`}>
+                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${TYPE_COLOR[r.type] || 'bg-gray-200 text-gray-600'}`}>
                         {r.type}
                       </span>
                       <span className="text-gray-500 text-xs">{r.date}</span>
                     </div>
-                    {r.notes && <p className="text-gray-400 text-xs leading-relaxed break-words">{r.notes}</p>}
+                    {r.notes && <p className="text-gray-500 text-xs leading-relaxed break-words">{r.notes}</p>}
                   </div>
-                  <span className="text-white font-semibold text-sm flex-shrink-0">${Number(r.cost).toFixed(2)}</span>
+                  <span className="text-gray-900 font-semibold text-sm flex-shrink-0">${Number(r.cost).toFixed(2)}</span>
                 </div>
               </div>
             ))}
@@ -309,7 +309,7 @@ function HistoryModal({ equipment, onClose }) {
         )}
 
         <button onClick={onClose}
-          className="mt-4 w-full bg-gray-800 hover:bg-gray-700 text-gray-300 py-2.5 rounded-xl text-sm transition">
+          className="mt-4 w-full bg-gray-100 hover:bg-gray-200 text-gray-600 py-2.5 rounded-xl text-sm transition">
           Close
         </button>
       </div>
@@ -381,8 +381,8 @@ export default function EquipmentManagement() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Equipment Management</h1>
-          <p className="text-gray-400 text-sm mt-0.5">
+          <h1 className="text-2xl font-bold text-gray-900">Equipment Management</h1>
+          <p className="text-gray-500 text-sm mt-0.5">
             {stats.total} items · ${stats.totalValue.toLocaleString()} total value
           </p>
         </div>
@@ -394,14 +394,14 @@ export default function EquipmentManagement() {
 
       {/* Maintenance alert banner */}
       {alertItems.length > 0 && (
-        <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-2xl p-4">
+        <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4">
           <div className="flex items-start gap-3 mb-3">
             <span className="text-xl">⚠️</span>
             <div>
-              <p className="text-yellow-400 font-semibold text-sm">
+              <p className="text-yellow-700 font-semibold text-sm">
                 {alertItems.length} item{alertItems.length !== 1 ? 's' : ''} need maintenance attention
               </p>
-              <p className="text-yellow-400/60 text-xs mt-0.5">
+              <p className="text-yellow-700/60 text-xs mt-0.5">
                 {alertItems.filter(e => e.alert === 'overdue').length} overdue ·{' '}
                 {alertItems.filter(e => e.alert === 'soon').length} due within 7 days
               </p>
@@ -413,16 +413,16 @@ export default function EquipmentManagement() {
               return (
                 <div key={e.id} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs ${
                   e.alert === 'overdue'
-                    ? 'bg-red-500/10 border-red-500/20 text-red-300'
-                    : 'bg-yellow-500/10 border-yellow-500/20 text-yellow-300'
+                    ? 'bg-red-50 border-red-500/20 text-red-300'
+                    : 'bg-yellow-50 border-yellow-500/20 text-yellow-300'
                 }`}>
                   <span>{CATEGORY_ICON[e.category]}</span>
                   <span className="font-medium">{e.name}</span>
-                  <span className={e.alert === 'overdue' ? 'text-red-400' : 'text-yellow-500'}>
+                  <span className={e.alert === 'overdue' ? 'text-red-600' : 'text-yellow-500'}>
                     {e.alert === 'overdue' ? `${Math.abs(days)}d overdue` : `due in ${days}d`}
                   </span>
                   <button onClick={() => setLogTarget(e)}
-                    className="bg-orange-500/20 hover:bg-orange-500/30 text-orange-400 px-2 py-0.5 rounded-md transition">
+                    className="bg-orange-100 hover:bg-orange-200 text-orange-600 px-2 py-0.5 rounded-md transition">
                     Log
                   </button>
                 </div>
@@ -435,14 +435,14 @@ export default function EquipmentManagement() {
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { icon: '🏋️', label: 'Total Equipment',  value: stats.total,                          color: 'bg-blue-500/20'   },
-          { icon: '✅', label: 'Working',           value: stats.working,                        color: 'bg-green-500/20'  },
-          { icon: '⚠️', label: 'Needs Attention',  value: stats.maintenance + stats.outOfOrder,  color: 'bg-yellow-500/20' },
-          { icon: '🔧', label: 'Maintenance Cost', value: `$${stats.maintCost.toFixed(2)}`,     color: 'bg-orange-500/20' },
+          { icon: '🏋️', label: 'Total Equipment',  value: stats.total,                          color: 'bg-blue-100'   },
+          { icon: '✅', label: 'Working',           value: stats.working,                        color: 'bg-green-100'  },
+          { icon: '⚠️', label: 'Needs Attention',  value: stats.maintenance + stats.outOfOrder,  color: 'bg-yellow-100' },
+          { icon: '🔧', label: 'Maintenance Cost', value: `$${stats.maintCost.toFixed(2)}`,     color: 'bg-orange-100' },
         ].map(s => (
-          <div key={s.label} className="bg-gray-900 border border-gray-800 rounded-xl p-4">
+          <div key={s.label} className="bg-white border border-gray-200 rounded-xl p-4">
             <div className={`w-10 h-10 ${s.color} rounded-lg flex items-center justify-center text-xl mb-3`}>{s.icon}</div>
-            <p className="text-2xl font-bold text-white">{s.value}</p>
+            <p className="text-2xl font-bold text-gray-900">{s.value}</p>
             <p className="text-gray-500 text-xs mt-0.5">{s.label}</p>
           </div>
         ))}
@@ -450,29 +450,29 @@ export default function EquipmentManagement() {
 
       {/* Filters + search */}
       <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
-        <div className="flex gap-1 bg-gray-900 border border-gray-800 rounded-xl p-1 flex-wrap">
+        <div className="flex gap-1 bg-white border border-gray-200 rounded-xl p-1 flex-wrap">
           {FILTER_TABS.map(tab => {
             const cnt = tab === 'All' ? enriched.length : enriched.filter(e => e.category === tab).length;
             return (
               <button key={tab} onClick={() => setActiveTab(tab)}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition flex items-center gap-1 ${
-                  activeTab === tab ? 'bg-orange-500 text-white' : 'text-gray-400 hover:text-white'
+                  activeTab === tab ? 'bg-orange-500 text-white' : 'text-gray-500 hover:text-gray-900'
                 }`}>
                 {tab !== 'All' && <span>{CATEGORY_ICON[tab]}</span>}
                 {tab}
-                <span className={`text-xs px-1.5 py-0.5 rounded-full ${activeTab === tab ? 'bg-orange-400/30' : 'bg-gray-800'}`}>{cnt}</span>
+                <span className={`text-xs px-1.5 py-0.5 rounded-full ${activeTab === tab ? 'bg-orange-200' : 'bg-gray-100'}`}>{cnt}</span>
               </button>
             );
           })}
         </div>
         <input type="text" value={search} onChange={e => setSearch(e.target.value)}
           placeholder="Search by name or brand..."
-          className="flex-1 min-w-48 bg-gray-900 border border-gray-800 rounded-xl px-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm" />
+          className="flex-1 min-w-48 bg-white border border-gray-200 rounded-xl px-4 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm" />
         <div className="flex gap-2">
           {['grid', 'table'].map(v => (
             <button key={v} onClick={() => setView(v)}
               className={`px-4 py-2 rounded-xl text-sm capitalize transition ${
-                view === v ? 'bg-orange-500 text-white' : 'bg-gray-900 border border-gray-800 text-gray-400 hover:text-white'
+                view === v ? 'bg-orange-500 text-white' : 'bg-white border border-gray-200 text-gray-500 hover:text-gray-900'
               }`}>{v}</button>
           ))}
         </div>
@@ -480,11 +480,11 @@ export default function EquipmentManagement() {
 
       {/* Empty state */}
       {filtered.length === 0 && (
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl text-center py-16 text-gray-500">
+        <div className="bg-white border border-gray-200 rounded-2xl text-center py-16 text-gray-500">
           <div className="text-4xl mb-3">🏋️</div>
           <p className="text-sm">{search || activeTab !== 'All' ? 'No matching equipment' : 'No equipment added yet'}</p>
           {!search && activeTab === 'All' && (
-            <button onClick={() => setShowAdd(true)} className="text-orange-400 text-sm mt-2 hover:underline">
+            <button onClick={() => setShowAdd(true)} className="text-orange-600 text-sm mt-2 hover:underline">
               Add your first item
             </button>
           )}
@@ -498,13 +498,13 @@ export default function EquipmentManagement() {
             const days        = e.nextMaintenanceDate ? Math.ceil((new Date(e.nextMaintenanceDate) - new Date()) / 86400000) : null;
             const records     = e.maintenanceRecords || [];
             const maintTotal  = records.reduce((s, r) => s + Number(r.cost || 0), 0);
-            const catBg       = CATEGORY_COLOR[e.category]?.split(' ')[0] || 'bg-gray-700';
+            const catBg       = CATEGORY_COLOR[e.category]?.split(' ')[0] || 'bg-gray-200';
 
             return (
-              <div key={e.id} className={`bg-gray-900 rounded-2xl p-5 border transition ${
-                e.alert === 'overdue' ? 'border-red-500/40' :
-                e.alert === 'soon'   ? 'border-yellow-500/40' :
-                                       'border-gray-800 hover:border-gray-700'
+              <div key={e.id} className={`bg-white rounded-2xl p-5 border transition ${
+                e.alert === 'overdue' ? 'border-red-200' :
+                e.alert === 'soon'   ? 'border-yellow-200' :
+                                       'border-gray-200 hover:border-gray-300'
               }`}>
                 {/* Top row */}
                 <div className="flex items-start gap-2.5 mb-3">
@@ -512,7 +512,7 @@ export default function EquipmentManagement() {
                     {CATEGORY_ICON[e.category]}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-white font-semibold text-sm truncate">{e.name}</p>
+                    <p className="text-gray-900 font-semibold text-sm truncate">{e.name}</p>
                     <p className="text-gray-500 text-xs truncate">{e.brand}</p>
                   </div>
                 </div>
@@ -527,25 +527,25 @@ export default function EquipmentManagement() {
                 <div className="space-y-1.5 text-xs mb-4">
                   <div className="flex justify-between">
                     <span className="text-gray-500">Purchase price</span>
-                    <span className="text-white font-medium">${Number(e.purchasePrice).toLocaleString()}</span>
+                    <span className="text-gray-900 font-medium">${Number(e.purchasePrice).toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-500">Purchased</span>
-                    <span className="text-gray-400">{e.purchaseDate}</span>
+                    <span className="text-gray-500">{e.purchaseDate}</span>
                   </div>
                   {e.lastMaint && (
                     <div className="flex justify-between">
                       <span className="text-gray-500">Last maintenance</span>
-                      <span className="text-gray-400">{e.lastMaint}</span>
+                      <span className="text-gray-500">{e.lastMaint}</span>
                     </div>
                   )}
                   {e.nextMaintenanceDate && (
                     <div className="flex justify-between">
                       <span className="text-gray-500">Next due</span>
                       <span className={
-                        e.alert === 'overdue' ? 'text-red-400 font-semibold' :
-                        e.alert === 'soon'    ? 'text-yellow-400 font-semibold' :
-                                               'text-gray-400'
+                        e.alert === 'overdue' ? 'text-red-600 font-semibold' :
+                        e.alert === 'soon'    ? 'text-yellow-700 font-semibold' :
+                                               'text-gray-500'
                       }>
                         {e.nextMaintenanceDate}
                         {e.alert === 'overdue' && ` (${Math.abs(days)}d overdue)`}
@@ -556,7 +556,7 @@ export default function EquipmentManagement() {
                   {records.length > 0 && (
                     <div className="flex justify-between">
                       <span className="text-gray-500">Maint. cost total</span>
-                      <span className="text-gray-400">${maintTotal.toFixed(2)}</span>
+                      <span className="text-gray-500">${maintTotal.toFixed(2)}</span>
                     </div>
                   )}
                 </div>
@@ -568,7 +568,7 @@ export default function EquipmentManagement() {
                       className={`flex-1 py-1.5 rounded-lg text-xs font-medium border transition ${
                         e.status === s
                           ? STATUS_STYLE[s].badge
-                          : 'border-gray-700 text-gray-600 hover:text-gray-400 hover:border-gray-600'
+                          : 'border-gray-300 text-gray-600 hover:text-gray-500 hover:border-gray-300'
                       }`}>
                       {s === 'Under Maintenance' ? 'Maint.' : s.split(' ')[0]}
                     </button>
@@ -578,16 +578,16 @@ export default function EquipmentManagement() {
                 {/* Actions */}
                 <div className="flex gap-2">
                   <button onClick={() => setLogTarget(e)}
-                    className="flex-1 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-300 hover:text-white py-2 rounded-lg text-xs font-medium transition">
+                    className="flex-1 bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-600 hover:text-gray-900 py-2 rounded-lg text-xs font-medium transition">
                     🔧 Log Maintenance
                   </button>
                   {records.length > 0 && (
                     <button onClick={() => setHistTarget(e)}
-                      className="bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-500 hover:text-white px-3 py-2 rounded-lg text-xs transition"
+                      className="bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-500 hover:text-gray-900 px-3 py-2 rounded-lg text-xs transition"
                       title="View history">📋</button>
                   )}
                   <button onClick={() => deleteEquipment(e.id)}
-                    className="bg-gray-800 hover:bg-red-500/10 border border-gray-700 hover:border-red-500/30 text-gray-600 hover:text-red-400 px-3 py-2 rounded-lg text-xs transition"
+                    className="bg-gray-100 hover:bg-red-50 border border-gray-300 hover:border-red-200 text-gray-600 hover:text-red-600 px-3 py-2 rounded-lg text-xs transition"
                     title="Delete">🗑️</button>
                 </div>
               </div>
@@ -598,11 +598,11 @@ export default function EquipmentManagement() {
 
       {/* Table view */}
       {filtered.length > 0 && view === 'table' && (
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
+        <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-gray-400 text-left border-b border-gray-800">
+                <tr className="text-gray-500 text-left border-b border-gray-200">
                   <th className="px-4 py-3 font-medium">Equipment</th>
                   <th className="px-4 py-3 font-medium hidden sm:table-cell">Category</th>
                   <th className="px-4 py-3 font-medium hidden sm:table-cell">Brand</th>
@@ -613,47 +613,47 @@ export default function EquipmentManagement() {
                   <th className="px-4 py-3 font-medium">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-800">
+              <tbody className="divide-y divide-gray-100">
                 {filtered.map(e => (
                   <tr key={e.id} className={`transition ${
-                    e.alert === 'overdue' ? 'bg-red-500/5 hover:bg-red-500/10' :
-                    e.alert === 'soon'    ? 'bg-yellow-500/5 hover:bg-yellow-500/10' :
-                                           'hover:bg-gray-800/50'
+                    e.alert === 'overdue' ? 'bg-red-50 hover:bg-red-50' :
+                    e.alert === 'soon'    ? 'bg-yellow-500/5 hover:bg-yellow-50' :
+                                           'hover:bg-gray-50'
                   }`}>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2.5">
                         <span className="text-lg">{CATEGORY_ICON[e.category]}</span>
-                        <span className="text-white font-medium">{e.name}</span>
+                        <span className="text-gray-900 font-medium">{e.name}</span>
                       </div>
                     </td>
                     <td className="px-4 py-3 hidden sm:table-cell">
                       <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${CATEGORY_COLOR[e.category]}`}>{e.category}</span>
                     </td>
-                    <td className="px-4 py-3 text-gray-400 hidden sm:table-cell">{e.brand}</td>
+                    <td className="px-4 py-3 text-gray-500 hidden sm:table-cell">{e.brand}</td>
                     <td className="px-4 py-3"><StatusBadge status={e.status} /></td>
-                    <td className="px-4 py-3 text-gray-400 text-xs hidden md:table-cell">{e.lastMaint || '—'}</td>
+                    <td className="px-4 py-3 text-gray-500 text-xs hidden md:table-cell">{e.lastMaint || '—'}</td>
                     <td className={`px-4 py-3 text-xs font-medium hidden md:table-cell ${
-                      e.alert === 'overdue' ? 'text-red-400' :
-                      e.alert === 'soon'    ? 'text-yellow-400' :
-                                             'text-gray-400'
+                      e.alert === 'overdue' ? 'text-red-600' :
+                      e.alert === 'soon'    ? 'text-yellow-700' :
+                                             'text-gray-500'
                     }`}>
                       {e.nextMaintenanceDate
                         ? `${e.nextMaintenanceDate}${e.alert === 'overdue' ? ' ⚠️' : e.alert === 'soon' ? ' 🔔' : ''}`
                         : '—'}
                     </td>
-                    <td className="px-4 py-3 text-gray-300 hidden lg:table-cell">
+                    <td className="px-4 py-3 text-gray-600 hidden lg:table-cell">
                       ${Number(e.purchasePrice).toLocaleString()}
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-1.5">
                         <button onClick={() => setLogTarget(e)}
-                          className="text-gray-500 hover:text-orange-400 bg-gray-800 border border-gray-700 hover:border-orange-500/30 px-2 py-1 rounded-lg text-xs transition">🔧</button>
+                          className="text-gray-500 hover:text-orange-600 bg-gray-100 border border-gray-300 hover:border-orange-200 px-2 py-1 rounded-lg text-xs transition">🔧</button>
                         {(e.maintenanceRecords || []).length > 0 && (
                           <button onClick={() => setHistTarget(e)}
-                            className="text-gray-500 hover:text-blue-400 bg-gray-800 border border-gray-700 px-2 py-1 rounded-lg text-xs transition">📋</button>
+                            className="text-gray-500 hover:text-blue-700 bg-gray-100 border border-gray-300 px-2 py-1 rounded-lg text-xs transition">📋</button>
                         )}
                         <button onClick={() => deleteEquipment(e.id)}
-                          className="text-gray-600 hover:text-red-400 text-lg transition">🗑️</button>
+                          className="text-gray-600 hover:text-red-600 text-lg transition">🗑️</button>
                       </div>
                     </td>
                   </tr>

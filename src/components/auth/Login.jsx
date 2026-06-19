@@ -40,48 +40,48 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500 rounded-2xl mb-4">
             <span className="text-3xl">💪</span>
           </div>
-          <h1 className="text-3xl font-bold text-white">GymPro</h1>
-          <p className="text-gray-400 mt-1">Sign in to your account</p>
+          <h1 className="text-3xl font-bold text-gray-900">GymPro</h1>
+          <p className="text-gray-500 mt-1">Sign in to your account</p>
         </div>
 
-        <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8">
+        <div className="bg-white border border-gray-200 rounded-2xl p-8">
           {serverError && (
-            <div className="bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg px-4 py-3 mb-6 text-sm">
+            <div className="bg-red-50 border border-red-200 text-red-600 rounded-lg px-4 py-3 mb-6 text-sm">
               {serverError}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">Email</label>
+              <label className="block text-sm font-medium text-gray-600 mb-1.5">Email</label>
               <input
                 type="text"
                 name="email"
                 value={form.email}
                 onChange={handleChange}
                 placeholder="you@example.com"
-                className={`w-full bg-gray-800 border rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 transition ${errors.email ? 'border-red-500' : 'border-gray-700'}`}
+                className={`w-full bg-gray-100 border rounded-lg px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 transition ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
               />
-              {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
+              {errors.email && <p className="text-red-600 text-xs mt-1">{errors.email}</p>}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">Password</label>
+              <label className="block text-sm font-medium text-gray-600 mb-1.5">Password</label>
               <input
                 type="password"
                 name="password"
                 value={form.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className={`w-full bg-gray-800 border rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 transition ${errors.password ? 'border-red-500' : 'border-gray-700'}`}
+                className={`w-full bg-gray-100 border rounded-lg px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 transition ${errors.password ? 'border-red-500' : 'border-gray-300'}`}
               />
-              {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password}</p>}
+              {errors.password && <p className="text-red-600 text-xs mt-1">{errors.password}</p>}
             </div>
 
             <button
@@ -92,9 +92,9 @@ export default function Login() {
             </button>
           </form>
 
-          <p className="text-center text-gray-400 text-sm mt-6">
+          <p className="text-center text-gray-500 text-sm mt-6">
             Don&apos;t have an account?{' '}
-            <Link to="/register" className="text-orange-400 hover:text-orange-300 font-medium">
+            <Link to="/register" className="text-orange-600 hover:text-orange-300 font-medium">
               Create one
             </Link>
           </p>

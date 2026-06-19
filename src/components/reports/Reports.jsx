@@ -33,8 +33,8 @@ const METHOD_ICONS  = { Cash: '💵', Card: '💳', 'Bank Transfer': '🏦' };
 function RevenueTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-sm shadow-xl">
-      <p className="text-gray-400 mb-2 font-medium">{label}</p>
+    <div className="bg-gray-100 border border-gray-300 rounded-xl px-4 py-3 text-sm shadow-xl">
+      <p className="text-gray-500 mb-2 font-medium">{label}</p>
       {payload.map(p => (
         <p key={p.dataKey} className="font-bold" style={{ color: p.color }}>
           ${Number(p.value).toFixed(2)}
@@ -47,8 +47,8 @@ function RevenueTooltip({ active, payload, label }) {
 function MemberTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-sm shadow-xl">
-      <p className="text-gray-400 mb-2 font-medium">{label}</p>
+    <div className="bg-gray-100 border border-gray-300 rounded-xl px-4 py-3 text-sm shadow-xl">
+      <p className="text-gray-500 mb-2 font-medium">{label}</p>
       {payload.map(p => (
         <p key={p.dataKey} style={{ color: p.color }} className="font-semibold">
           {p.name}: {p.value}
@@ -62,10 +62,10 @@ function PieTooltip({ active, payload }) {
   if (!active || !payload?.length) return null;
   const p = payload[0];
   return (
-    <div className="bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-sm shadow-xl">
+    <div className="bg-gray-100 border border-gray-300 rounded-xl px-4 py-3 text-sm shadow-xl">
       <p className="font-medium mb-1" style={{ color: p.payload.fill }}>{p.name}</p>
-      <p className="text-white font-bold">${Number(p.value).toFixed(2)}</p>
-      <p className="text-gray-400 text-xs">{(p.payload.percent * 100).toFixed(1)}% of total</p>
+      <p className="text-gray-900 font-bold">${Number(p.value).toFixed(2)}</p>
+      <p className="text-gray-500 text-xs">{(p.payload.percent * 100).toFixed(1)}% of total</p>
     </div>
   );
 }
@@ -73,15 +73,15 @@ function PieTooltip({ active, payload }) {
 // ─── Shared chart axis styles ────────────────────────────────────────────────
 
 const AXIS_STYLE = { fill: '#6b7280', fontSize: 11 };
-const GRID_STYLE = { stroke: '#1f2937', strokeDasharray: '3 3' };
+const GRID_STYLE = { stroke: '#e5e7eb', strokeDasharray: '3 3' };
 
 // ─── Section card wrapper ────────────────────────────────────────────────────
 
 function ChartCard({ title, subtitle, children }) {
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
+    <div className="bg-white border border-gray-200 rounded-2xl p-6">
       <div className="mb-5">
-        <h2 className="text-white font-semibold text-base">{title}</h2>
+        <h2 className="text-gray-900 font-semibold text-base">{title}</h2>
         {subtitle && <p className="text-gray-500 text-xs mt-0.5">{subtitle}</p>}
       </div>
       {children}
@@ -93,12 +93,12 @@ function ChartCard({ title, subtitle, children }) {
 
 function StatCard({ icon, label, value, sub, iconBg }) {
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5">
+    <div className="bg-white border border-gray-200 rounded-2xl p-5">
       <div className={`w-11 h-11 ${iconBg} rounded-xl flex items-center justify-center text-xl mb-4`}>
         {icon}
       </div>
-      <p className="text-2xl font-bold text-white leading-tight">{value}</p>
-      <p className="text-gray-400 text-sm mt-1">{label}</p>
+      <p className="text-2xl font-bold text-gray-900 leading-tight">{value}</p>
+      <p className="text-gray-500 text-sm mt-1">{label}</p>
       {sub && <p className="text-gray-600 text-xs mt-0.5">{sub}</p>}
     </div>
   );
@@ -222,8 +222,8 @@ export default function Reports() {
 
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white">Reports & Analytics</h1>
-        <p className="text-gray-400 text-sm mt-0.5">
+        <h1 className="text-2xl font-bold text-gray-900">Reports & Analytics</h1>
+        <p className="text-gray-500 text-sm mt-0.5">
           Insights calculated from your stored data · {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
         </p>
       </div>
@@ -231,22 +231,22 @@ export default function Reports() {
       {/* Key stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
-          icon="💰" iconBg="bg-orange-500/20"
+          icon="💰" iconBg="bg-orange-100"
           label="Total Revenue" value={`$${keyStats.totalRevenue.toFixed(2)}`}
           sub={`$${keyStats.thisMonthRevenue.toFixed(2)} this month`}
         />
         <StatCard
-          icon="👥" iconBg="bg-green-500/20"
+          icon="👥" iconBg="bg-green-100"
           label="Total Members" value={keyStats.totalMembers}
           sub={`Most popular: ${keyStats.topType}`}
         />
         <StatCard
-          icon="📈" iconBg="bg-blue-500/20"
+          icon="📈" iconBg="bg-blue-100"
           label="Avg Revenue / Member" value={`$${keyStats.avgRevenue.toFixed(2)}`}
           sub="All-time"
         />
         <StatCard
-          icon="🏋️" iconBg="bg-purple-500/20"
+          icon="🏋️" iconBg="bg-purple-100"
           label="Total Workouts" value={keyStats.totalWorkouts}
           sub={keyStats.overdueCount > 0 ? `⚠️ ${keyStats.overdueCount} overdue payments` : 'No overdue payments'}
         />
@@ -290,7 +290,7 @@ export default function Reports() {
             <span className="w-3 h-3 rounded-sm bg-orange-500 inline-block" /> Current month
           </div>
           <div className="flex items-center gap-1.5 text-xs text-gray-500">
-            <span className="w-3 h-3 rounded-sm bg-gray-700 inline-block" /> Past months
+            <span className="w-3 h-3 rounded-sm bg-gray-200 inline-block" /> Past months
           </div>
         </div>
       </ChartCard>
@@ -390,10 +390,10 @@ export default function Reports() {
                     <div key={m.name} className="flex items-center justify-between">
                       <div className="flex items-center gap-2 text-sm">
                         <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: m.fill }} />
-                        <span className="text-gray-400">{METHOD_ICONS[m.name]} {m.name}</span>
+                        <span className="text-gray-500">{METHOD_ICONS[m.name]} {m.name}</span>
                       </div>
                       <div className="text-right">
-                        <span className="text-white font-semibold text-sm">${m.value.toFixed(2)}</span>
+                        <span className="text-gray-900 font-semibold text-sm">${m.value.toFixed(2)}</span>
                         <span className="text-gray-600 text-xs ml-1.5">{pct}%</span>
                       </div>
                     </div>
@@ -426,9 +426,9 @@ export default function Reports() {
                     cursor={{ fill: 'rgba(255,255,255,0.04)' }}
                     content={({ active, payload, label }) =>
                       active && payload?.length ? (
-                        <div className="bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-sm">
-                          <p className="text-gray-400">{label}</p>
-                          <p className="text-white font-bold">{payload[0].value} member{payload[0].value !== 1 ? 's' : ''}</p>
+                        <div className="bg-gray-100 border border-gray-300 rounded-xl px-3 py-2 text-sm">
+                          <p className="text-gray-500">{label}</p>
+                          <p className="text-gray-900 font-bold">{payload[0].value} member{payload[0].value !== 1 ? 's' : ''}</p>
                         </div>
                       ) : null
                     }
@@ -445,7 +445,7 @@ export default function Reports() {
                   <div key={m.name} className="flex items-center gap-2 text-xs text-gray-500">
                     <span className="w-2 h-2 rounded-sm flex-shrink-0" style={{ background: TYPE_COLORS[m.name] }} />
                     {m.name}
-                    <span className="text-white font-semibold ml-auto">{m.value}</span>
+                    <span className="text-gray-900 font-semibold ml-auto">{m.value}</span>
                   </div>
                 ))}
               </div>
